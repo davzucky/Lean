@@ -228,7 +228,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                 return false;
             }
 
-            Log.Debug("FileSystemDataFeed.AddSubscription(): Added " + request.Configuration + " Start: " + request.StartTimeUtc + " End: " + request.EndTimeUtc);
+            Log.Trace("FileSystemDataFeed.AddSubscription(): Added " + request.Configuration + " Start: " + request.StartTimeUtc + " End: " + request.EndTimeUtc);
 
             if (_subscriptions.TryAdd(subscription))
             {
@@ -257,7 +257,7 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                 }
 
                 subscription.Dispose();
-                Log.Debug("FileSystemDataFeed.RemoveSubscription(): Removed " + configuration);
+                Log.Trace("FileSystemDataFeed.RemoveSubscription(): Removed " + configuration);
 
                 UpdateFillForwardResolution();
             }

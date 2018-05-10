@@ -185,6 +185,8 @@ namespace QuantConnect.Securities
             Universe universe;
             if (_universes.TryRemove(key, out universe))
             {
+                // dispose of the universe before removal -- notifies DF to not enqueue more data for this universe/children
+                universe.DisposeSafely();
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, universe));
                 return true;
             }

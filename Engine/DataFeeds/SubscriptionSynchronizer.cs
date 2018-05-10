@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using NodaTime;
-using QuantConnect.Data;
 using QuantConnect.Data.UniverseSelection;
 using QuantConnect.Securities;
 
@@ -78,8 +77,11 @@ namespace QuantConnect.Lean.Engine.DataFeeds
                 newChanges = SecurityChanges.None;
                 foreach (var subscription in subscriptions)
                 {
-                    if (subscription.EndOfStream)
+                    if (subscription.EndOfStream || subscription.Universe.DisposeRequested)
                     {
+                        // fire removed events when we run out of data and are about to remove the subscription
+                        newChanges = newChanges + SecurityChanges.Removed(subscription.Security);
+
                         OnSubscriptionFinished(subscription);
                         continue;
                     }

@@ -27,7 +27,7 @@ namespace QuantConnect.Data.UniverseSelection
     /// <summary>
     /// Provides a base class for all universes to derive from.
     /// </summary>
-    public abstract class Universe
+    public abstract class Universe : IDisposable
     {
         /// <summary>
         /// Gets a value indicating that no change to the universe should be made
@@ -35,6 +35,15 @@ namespace QuantConnect.Data.UniverseSelection
         public static readonly UnchangedUniverse Unchanged = UnchangedUniverse.Instance;
 
         private HashSet<Symbol> _previousSelections;
+
+        /// <summary>
+        /// Flag indicating if disposal of this universe has been requested
+        /// </summary>
+        public bool DisposeRequested
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Gets the internal security collection used to define membership in this universe
@@ -119,6 +128,11 @@ namespace QuantConnect.Data.UniverseSelection
         /// <returns>True if we can remove the security, false otherwise</returns>
         public virtual bool CanRemoveMember(DateTime utcTime, Security security)
         {
+            if (DisposeRequested)
+            {
+                return true;
+            }
+
             // can always remove delisted securities from the universe
             if (security.IsDelisted)
             {
@@ -145,6 +159,11 @@ namespace QuantConnect.Data.UniverseSelection
         /// <returns>The data that passes the filter</returns>
         public IEnumerable<Symbol> PerformSelection(DateTime utcTime, BaseDataCollection data)
         {
+            if (DisposeRequested)
+            {
+                return Enumerable.Empty<Symbol>();
+            }
+
             var result = SelectSymbols(utcTime, data);
             if (ReferenceEquals(result, Unchanged))
             {
@@ -214,6 +233,15 @@ namespace QuantConnect.Data.UniverseSelection
         public bool ContainsMember(Symbol symbol)
         {
             return Securities.ContainsKey(symbol);
+        }
+
+        /// <summary>
+        /// Marks this universe as ready for disposal.
+        /// This will cause this universe and all child subscriptions to be removed from the data feed
+        /// </summary>
+        public void Dispose()
+        {
+            DisposeRequested = true;
         }
 
         /// <summary>

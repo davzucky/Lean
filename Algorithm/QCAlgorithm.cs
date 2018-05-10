@@ -1606,25 +1606,43 @@ namespace QuantConnect.Algorithm
                 security.Cache.Reset();
 
                 // liquidate if invested
-                if (security.Invested) Liquidate(security.Symbol);
-
-                var universe = UniverseManager.Select(x => x.Value).OfType<UserDefinedUniverse>().FirstOrDefault(x => x.Members.ContainsKey(symbol));
-                if (universe != null)
+                if (security.Invested)
                 {
-                    var ret = universe.Remove(symbol);
+                    Liquidate(security.Symbol);
+                }
 
-                    // if we are removing the symbol which is also the benchmark, add it back as internal feed
-                    if (symbol == _benchmarkSymbol)
+                // mark security as not tradable
+                security.IsTradable = false;
+
+                if (symbol.IsCanonical())
+                {
+                    var universe = UniverseManager.Select(x => x.Value).FirstOrDefault(x => x.Configuration.Symbol == symbol);
+                    if (universe != null)
                     {
-                        Securities.Remove(symbol);
-
-                        security = CreateBenchmarkSecurity();
-                        AddToUserDefinedUniverse(security);
+                        // finally, dispose and remove the canonical security from the universe manager
+                        UniverseManager.Remove(symbol);
                     }
+                }
+                else
+                {
+                    var universe = UniverseManager.Select(x => x.Value).OfType<UserDefinedUniverse>().FirstOrDefault(x => x.Members.ContainsKey(symbol));
+                    if (universe != null)
+                    {
+                        var ret = universe.Remove(symbol);
 
-                    SubscriptionManager.HasCustomData = universe.Members.Any(x => x.Value.Subscriptions.Any(y => y.IsCustomData));
+                        // if we are removing the symbol which is also the benchmark, add it back as internal feed
+                        if (symbol == _benchmarkSymbol)
+                        {
+                            Securities.Remove(symbol);
 
-                    return ret;
+                            security = CreateBenchmarkSecurity();
+                            AddToUserDefinedUniverse(security);
+                        }
+
+                        SubscriptionManager.HasCustomData = universe.Members.Any(x => x.Value.Subscriptions.Any(y => y.IsCustomData));
+
+                        return ret;
+                    }
                 }
             }
             return false;

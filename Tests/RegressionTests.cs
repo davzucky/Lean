@@ -1063,9 +1063,33 @@ namespace QuantConnect.Tests
                 {"Total Fees", "$36.79"},
             };
 
+            var addRemoveOptionChainRegressionAlgorithmStatistics = new Dictionary<string, string>
+            {
+                {"Total Trades", "1"},
+                {"Average Win", "0%"},
+                {"Average Loss", "0%"},
+                {"Compounding Annual Return", "-2.147%"},
+                {"Drawdown", "0.100%"},
+                {"Expectancy", "0"},
+                {"Net Profit", "-0.028%"},
+                {"Sharpe Ratio", "-7.937"},
+                {"Loss Rate", "0%"},
+                {"Win Rate", "0%"},
+                {"Profit-Loss Ratio", "0"},
+                {"Alpha", "-0.052"},
+                {"Beta", "2.534"},
+                {"Annual Standard Deviation", "0.002"},
+                {"Annual Variance", "0"},
+                {"Information Ratio", "-18.687"},
+                {"Tracking Error", "0.002"},
+                {"Treynor Ratio", "-0.007"},
+                {"Total Fees", "$0.25"},
+            };
+
             return new List<AlgorithmStatisticsTestParameters>
             {
                 // CSharp
+                new AlgorithmStatisticsTestParameters("AddRemoveOptionChainRegressionAlgorithm", addRemoveOptionChainRegressionAlgorithmStatistics, Language.CSharp),
                 new AlgorithmStatisticsTestParameters("AddRemoveSecurityRegressionAlgorithm", addRemoveSecurityRegressionStatistics, Language.CSharp),
                 new AlgorithmStatisticsTestParameters("BasicTemplateAlgorithm", basicTemplateStatistics, Language.CSharp),
                 new AlgorithmStatisticsTestParameters("BasicTemplateFrameworkAlgorithm", basicTemplateFrameworkStatistics, Language.CSharp),
