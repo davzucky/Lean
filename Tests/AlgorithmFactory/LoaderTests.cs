@@ -39,7 +39,7 @@ namespace QuantConnect.Tests.AlgorithmFactory
             _workerThread.Dispose();
         }
 
-        [Test, Ignore]
+        [Test, Ignore("TODO: Put a proper comment. This is from migration to nunit3")]
         public void LoadsSamePythonAlgorithmTwice()
         {
             var assemblyPath = "../../../Algorithm.Python/BasicTemplateAlgorithm.py";
@@ -57,7 +57,7 @@ namespace QuantConnect.Tests.AlgorithmFactory
             Assert.AreNotEqual(algorithm1.ToString(), algorithm2.ToString());
         }
 
-        [Test, Ignore]
+        [Test, Ignore("TODO: Put a proper comment. This is from migration to nunit3")]
         public void LoadsTwoDifferentPythonAlgorithm()
         {
             var assemblyPath1 = "../../../Algorithm.Python/BasicTemplateAlgorithm.py";
