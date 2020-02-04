@@ -55,7 +55,7 @@ namespace QuantConnect.Tests.Brokerages.Tradier
         /// <summary>
         /// Gets the symbol to be traded, must be shortable
         /// </summary>
-        protected override Symbol Symbol
+        protected static Symbol Symbol
         {
             get { return Symbols.AAPL; }
         }
@@ -63,7 +63,7 @@ namespace QuantConnect.Tests.Brokerages.Tradier
         /// <summary>
         /// Gets the security type associated with the <see cref="BrokerageTests.Symbol"/>
         /// </summary>
-        protected override SecurityType SecurityType
+        protected static SecurityType SecurityType
         {
             get { return SecurityType.Equity; }
         }
@@ -71,7 +71,7 @@ namespace QuantConnect.Tests.Brokerages.Tradier
         /// <summary>
         /// Gets a high price for the specified symbol so a limit sell won't fill
         /// </summary>
-        protected override decimal HighPrice
+        protected static decimal HighPrice
         {
             get { return 1000m; }
         }
@@ -79,7 +79,7 @@ namespace QuantConnect.Tests.Brokerages.Tradier
         /// <summary>
         /// Gets a low price for the specified symbol so a limit buy won't fill
         /// </summary>
-        protected override decimal LowPrice
+        protected static decimal LowPrice
         {
             get { return 0.01m; }
         }
@@ -102,7 +102,7 @@ namespace QuantConnect.Tests.Brokerages.Tradier
             return quotes.Single().Ask;
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public void AllowsOneActiveOrderPerSymbol(OrderTestParameters parameters)
         {
             // tradier's api gets special with zero holdings crossing in that they need to fill the order

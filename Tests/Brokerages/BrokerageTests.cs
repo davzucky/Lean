@@ -39,7 +39,7 @@ namespace QuantConnect.Tests.Brokerages
         /// <summary>
         /// Provides the data required to test each order type in various cases
         /// </summary>
-        public virtual TestCaseData[] OrderParameters
+        public static TestCaseData[] OrderParameters
         {
             get
             {
@@ -265,22 +265,22 @@ namespace QuantConnect.Tests.Brokerages
         /// <summary>
         /// Gets the symbol to be traded, must be shortable
         /// </summary>
-        protected abstract Symbol Symbol { get; }
+        protected static Symbol Symbol { get; }
 
         /// <summary>
         /// Gets the security type associated with the <see cref="Symbol"/>
         /// </summary>
-        protected abstract SecurityType SecurityType { get; }
+        protected static SecurityType SecurityType { get; }
 
         /// <summary>
         /// Gets a high price for the specified symbol so a limit sell won't fill
         /// </summary>
-        protected abstract decimal HighPrice { get; }
+        protected static decimal HighPrice { get; }
 
         /// <summary>
         /// Gets a low price for the specified symbol so a limit buy won't fill
         /// </summary>
-        protected abstract decimal LowPrice { get; }
+        protected static decimal LowPrice { get; }
 
         /// <summary>
         /// Returns whether or not the brokers order methods implementation are async
@@ -314,7 +314,7 @@ namespace QuantConnect.Tests.Brokerages
             Assert.IsTrue(Brokerage.IsConnected);
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public void CancelOrders(OrderTestParameters parameters)
         {
             const int secondsTimeout = 20;
@@ -373,7 +373,7 @@ namespace QuantConnect.Tests.Brokerages
             Brokerage.OrderStatusChanged -= orderStatusCallback;
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public void LongFromZero(OrderTestParameters parameters)
         {
             Log.Trace("");
@@ -382,7 +382,7 @@ namespace QuantConnect.Tests.Brokerages
             PlaceOrderWaitForStatus(parameters.CreateLongOrder(GetDefaultQuantity()), parameters.ExpectedStatus);
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public void CloseFromLong(OrderTestParameters parameters)
         {
             Log.Trace("");
@@ -395,7 +395,7 @@ namespace QuantConnect.Tests.Brokerages
             PlaceOrderWaitForStatus(parameters.CreateShortOrder(GetDefaultQuantity()), parameters.ExpectedStatus);
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public virtual void ShortFromZero(OrderTestParameters parameters)
         {
             Log.Trace("");
@@ -404,7 +404,7 @@ namespace QuantConnect.Tests.Brokerages
             PlaceOrderWaitForStatus(parameters.CreateShortOrder(GetDefaultQuantity()), parameters.ExpectedStatus);
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public virtual void CloseFromShort(OrderTestParameters parameters)
         {
             Log.Trace("");
@@ -417,7 +417,7 @@ namespace QuantConnect.Tests.Brokerages
             PlaceOrderWaitForStatus(parameters.CreateLongOrder(GetDefaultQuantity()), parameters.ExpectedStatus);
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public virtual void ShortFromLong(OrderTestParameters parameters)
         {
             Log.Trace("");
@@ -435,7 +435,7 @@ namespace QuantConnect.Tests.Brokerages
             }
         }
 
-        [Test, TestCaseSource("OrderParameters")]
+        [Test, TestCaseSource(nameof(OrderParameters))]
         public virtual void LongFromShort(OrderTestParameters parameters)
         {
             Log.Trace("");

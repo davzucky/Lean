@@ -219,7 +219,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
 
         #region History provider tests
 
-        public TestCaseData[] TestParameters
+        public static TestCaseData[] TestParameters
         {
             get
             {
@@ -250,7 +250,7 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             }
         }
 
-        [Test, TestCaseSource("TestParameters")]
+        [Test, TestCaseSource(nameof(TestParameters))]
         public void IEXCouldGetHistory(Symbol symbol, Resolution resolution, TimeSpan period, bool received)
         {
             var historyProvider = new IEXDataQueueHandler();

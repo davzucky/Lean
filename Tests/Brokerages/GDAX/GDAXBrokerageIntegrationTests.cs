@@ -29,7 +29,7 @@ namespace QuantConnect.Tests.Brokerages.GDAX
     public class GDAXBrokerageIntegrationTests : BrokerageTests
     {
         #region Properties
-        protected override Symbol Symbol
+        protected static Symbol Symbol
         {
             get { return Symbol.Create("ETHBTC", SecurityType, Market.GDAX); }
         }
@@ -37,7 +37,7 @@ namespace QuantConnect.Tests.Brokerages.GDAX
         /// <summary>
         ///     Gets the security type associated with the <see cref="BrokerageTests.Symbol" />
         /// </summary>
-        protected override SecurityType SecurityType
+        protected static SecurityType SecurityType
         {
             get { return SecurityType.Crypto; }
         }
@@ -45,7 +45,7 @@ namespace QuantConnect.Tests.Brokerages.GDAX
         /// <summary>
         ///     Gets a high price for the specified symbol so a limit sell won't fill
         /// </summary>
-        protected override decimal HighPrice
+        protected static decimal HighPrice
         {
             get { return 1m; }
         }
@@ -53,7 +53,7 @@ namespace QuantConnect.Tests.Brokerages.GDAX
         /// <summary>
         /// Gets a low price for the specified symbol so a limit buy won't fill
         /// </summary>
-        protected override decimal LowPrice
+        protected static decimal LowPrice
         {
             get { return 0.0001m; }
         }
@@ -99,7 +99,7 @@ namespace QuantConnect.Tests.Brokerages.GDAX
         }
 
         //no stop limit support
-        public override TestCaseData[] OrderParameters => new[]
+        public static TestCaseData[] OrderParameters => new[]
         {
             new TestCaseData(new MarketOrderTestParameters(Symbol)).SetName("MarketOrder"),
             new TestCaseData(new LimitOrderTestParameters(Symbol, HighPrice, LowPrice)).SetName("LimitOrder"),

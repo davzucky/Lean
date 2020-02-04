@@ -24,28 +24,28 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
     public class BitfinexSymbolMapperTests
     {
         #region data
-        public TestCaseData[] CryptoPairs => new[]
+        public static TestCaseData[] CryptoPairs => new[]
         {
             new TestCaseData("ethusd"),
             new TestCaseData("btcusd"),
             new TestCaseData("ethbtc")
         };
 
-        public TestCaseData[] RawCryptoSymbols => new[]
+        public static TestCaseData[] RawCryptoSymbols => new[]
         {
             new TestCaseData("ETHUSD", SecurityType.Crypto, Market.Bitfinex),
             new TestCaseData("ETHBTC", SecurityType.Crypto, Market.Bitfinex),
             new TestCaseData("BTCUSD", SecurityType.Crypto, Market.Bitfinex),
         };
 
-        public TestCaseData[] CryptoSymbols => new[]
+        public static TestCaseData[] CryptoSymbols => new[]
         {
             new TestCaseData(Symbol.Create("ETHUSD", SecurityType.Crypto, Market.Bitfinex)),
             new TestCaseData(Symbol.Create("BTCUSD", SecurityType.Crypto, Market.Bitfinex)),
             new TestCaseData(Symbol.Create("ETHBTC", SecurityType.Crypto, Market.Bitfinex))
         };
 
-        public TestCaseData[] CurrencyPairs => new[]
+        public static TestCaseData[] CurrencyPairs => new[]
         {
             new TestCaseData(""),
             new TestCaseData("eurusd"),
@@ -53,7 +53,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
             new TestCaseData("usdjpy")
         };
 
-        public TestCaseData[] UnknownSymbols => new[]
+        public static TestCaseData[] UnknownSymbols => new[]
         {
             new TestCaseData("eth-usd", SecurityType.Crypto, Market.Bitfinex),
             new TestCaseData("BTC/USD", SecurityType.Crypto, Market.Bitfinex),
@@ -63,12 +63,12 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
             new TestCaseData("btceth", SecurityType.Crypto, Market.Bitfinex)
         };
 
-        public TestCaseData[] UnknownSecurityType => new[]
+        public static TestCaseData[] UnknownSecurityType => new[]
         {
             new TestCaseData("BTCUSD", SecurityType.Forex, Market.Bitfinex),
         };
 
-        public TestCaseData[] UnknownMarket => new[]
+        public static TestCaseData[] UnknownMarket => new[]
         {
             new TestCaseData("ethusd", SecurityType.Crypto, Market.GDAX)
         };
@@ -76,7 +76,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         #endregion
 
         [Test]
-        [TestCaseSource("CryptoPairs")]
+        [TestCaseSource(nameof(CryptoPairs))]
         public void ReturnsCryptoSecurityType(string pair)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -87,7 +87,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("CryptoPairs")]
+        [TestCaseSource(nameof(CryptoPairs))]
         public void ReturnsCorrectLeanSymbol(string pair)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -99,7 +99,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("RawCryptoSymbols")]
+        [TestCaseSource(nameof(RawCryptoSymbols))]
         public void ReturnsCorrectLeanSymbol(string pair, SecurityType type, string market)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -111,7 +111,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("CryptoSymbols")]
+        [TestCaseSource(nameof(CryptoSymbols))]
         public void ReturnsCorrectBrokerageSymbol(Symbol symbol)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -120,7 +120,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("CurrencyPairs")]
+        [TestCaseSource(nameof(CurrencyPairs))]
         public void ThrowsOnCurrencyPairs(string pair)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -146,7 +146,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("UnknownSymbols")]
+        [TestCaseSource(nameof(UnknownSymbols))]
         public void ThrowsOnUnknownSymbols(string pair, SecurityType type, string market)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -157,7 +157,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("UnknownSecurityType")]
+        [TestCaseSource(nameof(UnknownSecurityType))]
         public void ThrowsOnUnknownSecurityType(string pair, SecurityType type, string market)
         {
             var mapper = new BitfinexSymbolMapper();
@@ -168,7 +168,7 @@ namespace QuantConnect.Tests.Brokerages.Bitfinex
         }
 
         [Test]
-        [TestCaseSource("UnknownMarket")]
+        [TestCaseSource(nameof(UnknownMarket))]
         public void ThrowsOnUnknownMarket(string pair, SecurityType type, string market)
         {
             var mapper = new BitfinexSymbolMapper();

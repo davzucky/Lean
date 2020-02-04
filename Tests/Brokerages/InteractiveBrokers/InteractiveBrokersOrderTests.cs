@@ -34,13 +34,13 @@ namespace QuantConnect.Tests.Brokerages.InteractiveBrokers
         {
         }
 
-        protected override Symbol Symbol => Symbols.USDJPY;
+        protected static Symbol Symbol => Symbols.USDJPY;
 
-        protected override SecurityType SecurityType => SecurityType.Forex;
+        protected static SecurityType SecurityType => SecurityType.Forex;
 
-        protected override decimal HighPrice => 10000m;
+        protected static decimal HighPrice => 10000m;
 
-        protected override decimal LowPrice => 0.01m;
+        protected static decimal LowPrice => 0.01m;
 
         /// <summary>
         /// Returns wether or not the brokers order methods implementation are async

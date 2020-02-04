@@ -287,7 +287,7 @@ namespace QuantConnect.Tests.Engine.Setup
             Assert.Greater(algorithm.UtcTime, time);
         }
 
-        public TestCaseData[] GetExistingHoldingsAndOrdersTestCaseData()
+        public static TestCaseData[] GetExistingHoldingsAndOrdersTestCaseData()
         {
             return new[]
             {
