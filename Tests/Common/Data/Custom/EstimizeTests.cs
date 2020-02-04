@@ -30,7 +30,7 @@ namespace QuantConnect.Tests.Common.Data.Custom
     [TestFixture]
     public class EstimizeTests
     {
-        [Test, Ignore]
+        [Test, Ignore("TODO: Put a proper comment. This is from migration to nunit3")]
         public void EstimizeDownloadDoesNotThrow()
         {
             var tickers = new List<EstimizeDataDownloader.Company>();

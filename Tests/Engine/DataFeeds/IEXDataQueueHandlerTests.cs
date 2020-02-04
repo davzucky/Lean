@@ -238,14 +238,6 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                     new TestCaseData(Symbols.SPY, Resolution.Minute, TimeSpan.FromDays(45), false), // beyond 30 days
                     new TestCaseData(Symbols.SPY, Resolution.Daily, TimeSpan.FromDays(-15), false), // date in future
                     new TestCaseData(Symbols.SPY, Resolution.Daily, TimeSpan.FromDays(365*5.5), false), // beyond 5 years
-
-                    // invalid symbol: XYZ
-                    new TestCaseData(Symbol.Create("XYZ", SecurityType.Equity, Market.FXCM), Resolution.Daily, TimeSpan.FromDays(15), false)
-                        .Throws("System.Net.WebException"),
-
-                    // invalid security type, throws "System.ArgumentException : Invalid security type: Forex"
-                    new TestCaseData(Symbols.EURUSD, Resolution.Daily, TimeSpan.FromDays(15), false)
-                        .Throws("System.Net.WebException")
                 };
             }
         }
