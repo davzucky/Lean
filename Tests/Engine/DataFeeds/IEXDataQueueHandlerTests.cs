@@ -250,6 +250,21 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             }
         }
 
+        public static TestCaseData[] TestParametersThrowError
+        {
+            get
+            {
+                return new[]
+                {
+                    // invalid symbol: XYZ
+                    new TestCaseData(Symbol.Create("XYZ", SecurityType.Equity, Market.FXCM), Resolution.Daily, TimeSpan.FromDays(15), false),
+
+                    // invalid security type, throws "System.ArgumentException : Invalid security type: Forex"
+                    new TestCaseData(Symbols.EURUSD, Resolution.Daily, TimeSpan.FromDays(15), false)
+                };
+            }
+        }
+
         [Test, TestCaseSource(nameof(TestParameters))]
         public void IEXCouldGetHistory(Symbol symbol, Resolution resolution, TimeSpan period, bool received)
         {
@@ -302,6 +317,34 @@ namespace QuantConnect.Tests.Engine.DataFeeds
                 Assert.IsTrue(historyProvider.DataPointCount == 0);
             }
         }
+
+        [Test, TestCaseSource(nameof(TestParametersThrowError))]
+        public void IEXThrowErrorGetHistory(Symbol symbol, Resolution resolution, TimeSpan period, bool received)
+        {
+            var historyProvider = new IEXDataQueueHandler();
+            historyProvider.Initialize(new HistoryProviderInitializeParameters(null, null, null, null, null, null, null, false));
+
+            var now = DateTime.UtcNow;
+
+            var requests = new[]
+            {
+                new HistoryRequest(now.Add(-period),
+                                   now,
+                                   typeof(QuoteBar),
+                                   symbol,
+                                   resolution,
+                                   SecurityExchangeHours.AlwaysOpen(TimeZones.Utc),
+                                   DateTimeZone.Utc,
+                                   Resolution.Minute,
+                                   false,
+                                   false,
+                                   DataNormalizationMode.Adjusted,
+                                   TickType.Quote)
+            };
+
+            Assert.Throws<System.Net.WebException>(delegate { var history = historyProvider.GetHistory(requests, TimeZones.Utc); });          
+        }
+
 
         #endregion
     }
