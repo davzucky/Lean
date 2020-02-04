@@ -257,21 +257,6 @@ namespace QuantConnect.Tests.Engine.DataFeeds
             }
         }
 
-        public static TestCaseData[] TestParametersThrowError
-        {
-            get
-            {
-                return new[]
-                {
-                    // invalid symbol: XYZ
-                    new TestCaseData(Symbol.Create("XYZ", SecurityType.Equity, Market.FXCM), Resolution.Daily, TimeSpan.FromDays(15), false),
-
-                    // invalid security type, throws "System.ArgumentException : Invalid security type: Forex"
-                    new TestCaseData(Symbols.EURUSD, Resolution.Daily, TimeSpan.FromDays(15), false)
-                };
-            }
-        }
-
         [Test, TestCaseSource(nameof(TestParameters))]
         public void IEXCouldGetHistory(Symbol symbol, Resolution resolution, TimeSpan period, bool received)
         {
