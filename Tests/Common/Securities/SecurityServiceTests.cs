@@ -116,13 +116,17 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "Symbol can't be found in the Symbol Properties Database")]
         public void ThrowOnCreateCryptoNotDescribedInCSV()
         {
             var symbol = Symbol.Create("ABCDEFG", SecurityType.Crypto, Market.GDAX);
 
             var configs = _subscriptionManager.SubscriptionDataConfigService.Add(typeof(QuoteBar), symbol, Resolution.Minute, false, false, false);
-            var actual = _securityService.CreateSecurity(symbol, configs, 1.0m, false);
+            var exception = Assert.Throws<ArgumentException>( delegate
+                {
+                var actual = _securityService.CreateSecurity(symbol, configs, 1.0m, false);
+                });
+
+            Assert.True(exception.Message.Contains("Symbol can't be found in the Symbol Properties Database"));
         }
 
         [Test]

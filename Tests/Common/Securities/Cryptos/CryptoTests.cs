@@ -48,7 +48,7 @@ namespace QuantConnect.Tests.Common.Securities.Cryptos
         }
 
         [Test]
-        [TestCase("BTCEUR", "USD", ExpectedException = typeof(InvalidOperationException), MatchType = MessageMatch.Contains, ExpectedMessage = "symbol doesn't end with")]
+        [TestCase("BTCEUR", "USD")]
         public void ConstructorThrowOnWrongQuoteCurrency(string ticker, string quote)
         {
             var securities = new SecurityManager(TimeKeeper);
@@ -65,17 +65,21 @@ namespace QuantConnect.Tests.Common.Securities.Cryptos
             var cash = portfolio.CashBook[quote];
             var symbol = Symbol.Create(ticker, SecurityType.Crypto, Market.GDAX);
 
-            var crypto = new Crypto(
-                symbol,
-                SecurityExchangeHours.AlwaysOpen(DateTimeZone.Utc),
-                cash,
-                SymbolProperties.GetDefault(quote),
-                portfolio.CashBook,
-                RegisteredSecurityDataTypesProvider.Null,
-                new SecurityCache()
-            );
+            var exception = Assert.Throws<InvalidOperationException>(delegate
+            {
+                var crypto = new Crypto(
+                    symbol,
+                    SecurityExchangeHours.AlwaysOpen(DateTimeZone.Utc),
+                    cash,
+                    SymbolProperties.GetDefault(quote),
+                    portfolio.CashBook,
+                    RegisteredSecurityDataTypesProvider.Null,
+                    new SecurityCache()
+                );
+            });
 
-            Assert.AreEqual(symbol.Value.RemoveFromEnd(quote), crypto.BaseCurrencySymbol);
+            Assert.True(exception.Message.Contains("symbol doesn't end with"));
+            
         }
     }
 }

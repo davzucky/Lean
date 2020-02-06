@@ -23,10 +23,15 @@ namespace QuantConnect.Tests.Indicators
     [TestFixture]
     public class DelayTests
     {
-        [Test, ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "size of at least 1")]
+        [Test]
         public void DelayZeroThrowsArgumentException()
         {
-            new Delay(0);
+            var exception = Assert.Throws<ArgumentException>(delegate
+               {
+                   new Delay(0);
+               });
+
+            Assert.True(exception.Message.Contains("size of at least 1"));
         }
 
         [Test]

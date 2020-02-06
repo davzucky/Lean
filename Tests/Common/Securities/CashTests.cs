@@ -45,11 +45,14 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Test]
-        [TestCase(null, ExpectedException = typeof(ArgumentException), MatchType = MessageMatch.Exact, ExpectedMessage = "Cash symbols cannot be null or empty.")]
-        [TestCase("", ExpectedException = typeof(ArgumentException), MatchType = MessageMatch.Exact, ExpectedMessage = "Cash symbols cannot be null or empty.")]
-        public void ConstructorThrowsOnEmptySymbol(string currency)
+        [TestCase(null, "Cash symbols cannot be null or empty.")]
+        [TestCase("",  "Cash symbols cannot be null or empty.")]
+        public void ConstructorThrowsOnEmptySymbol(string currency, string message)
         {
-            var cash = new Cash(currency, 0, 0);
+            var exception = Assert.Throws<ArgumentException>(
+                delegate { var cash = new Cash(currency, 0, 0); });
+
+            Assert.Equals(message, exception.Message);
         }
 
         [Test]

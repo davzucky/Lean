@@ -167,11 +167,14 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException), MatchType = MessageMatch.Contains,
-            ExpectedMessage = "OptionRight is only defined for SecurityType.Option")]
         public void OptionRightThrowsOnNonOptionSecurityType()
         {
-            var OptionRight = SPY.OptionRight;
+            var exception = Assert.Throws<InvalidOperationException>(delegate
+            {
+                var OptionRight = SPY.OptionRight;
+            });
+
+            Assert.True(exception.Message.Contains("OptionRight is only defined for SecurityType.Option"));
         }
 
         [Test]
@@ -207,11 +210,13 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException), MatchType = MessageMatch.Contains,
-            ExpectedMessage = "OptionStyle is only defined for SecurityType.Option")]
         public void OptionStyleThrowsOnNonOptionSecurityType()
         {
-            var optionStyle = SPY.OptionStyle;
+            var exception = Assert.Throws<InvalidOperationException>(delegate
+            {
+                var optionStyle = SPY.OptionStyle;
+            });
+            Assert.True(exception.Message.Contains("OptionStyle is only defined for SecurityType.Option"));
         }
 
         [Test]
@@ -320,10 +325,14 @@ namespace QuantConnect.Tests.Common.Securities
         }
 
         [Theory, TestCase("|"), TestCase(" ")]
-        [ExpectedException(typeof(ArgumentException), MatchType = MessageMatch.Contains, ExpectedMessage = "must not contain the characters")]
         public void ThrowsOnInvalidSymbolCharacters(string input)
         {
-            new SecurityIdentifier(input, 0);
+            var exception = Assert.Throws<ArgumentException>(delegate
+            {
+                new SecurityIdentifier(input, 0);
+            });
+
+            Assert.True(exception.Message.Contains("must not contain the characters"));
         }
 
         [Test]

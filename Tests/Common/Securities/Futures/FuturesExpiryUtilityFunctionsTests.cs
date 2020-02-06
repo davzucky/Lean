@@ -113,14 +113,16 @@ namespace QuantConnect.Tests.Common.Securities.Futures
 
         [TestCase("01/03/2016", 45)]
         [TestCase("05/02/2017", 30)]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NthLastBusinessDay_WithInputsMoreThanDaysInMonth_ShouldThrowException(string time, int numberOfDays)
         {
             //Arrange
             var inputDate = Parse.DateTimeExact(time, "dd/MM/yyyy");
 
             //Act
-            FuturesExpiryUtilityFunctions.NthLastBusinessDay(inputDate, numberOfDays);
+            Assert.Throws<ArgumentOutOfRangeException>(delegate
+            {
+                FuturesExpiryUtilityFunctions.NthLastBusinessDay(inputDate, numberOfDays);
+            });
 
         }
 
@@ -218,14 +220,16 @@ namespace QuantConnect.Tests.Common.Securities.Futures
         [TestCase("09/04/2017")]
         [TestCase("02/04/2003")]
         [TestCase("02/03/2002")]
-        [ExpectedException(typeof(ArgumentException))]
         public void NotPrecededByHoliday_WithNonThrusdayWeekday_ShouldThrowException(string day)
         {
             //Arrange
             var inputDate = Parse.DateTimeExact(day, "dd/MM/yyyy");
 
             //Act
-            FuturesExpiryUtilityFunctions.NotPrecededByHoliday(inputDate);
+            Assert.Throws<ArgumentException>(delegate
+               {
+                   FuturesExpiryUtilityFunctions.NotPrecededByHoliday(inputDate);
+               });
 
         }
 
