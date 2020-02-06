@@ -37,7 +37,7 @@ namespace QuantConnect.Tests.Algorithm.Framework.Portfolio
         private const decimal _startingCash = 100000;
         private const double DefaultPercent = 0.03;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             _algorithm = new QCAlgorithm();

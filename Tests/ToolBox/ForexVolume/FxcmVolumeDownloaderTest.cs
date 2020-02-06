@@ -49,7 +49,7 @@ namespace QuantConnect.Tests.ToolBox
             _testingTempFolders.Add(_dataDirectory);
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void CleanTemporaryFolder()
         {
             foreach (var testingTempFolder in _testingTempFolders)

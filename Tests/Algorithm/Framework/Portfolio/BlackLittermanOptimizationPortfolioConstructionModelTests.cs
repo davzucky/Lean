@@ -36,7 +36,7 @@ namespace QuantConnect.Tests.Algorithm.Framework.Portfolio
         private Insight[] _view1Insights;
         private Insight[] _view2Insights;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             _algorithm = new QCAlgorithm();
