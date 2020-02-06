@@ -30,6 +30,7 @@ namespace QuantConnect.Tests.Algorithm.Framework.Portfolio
     {
         public override double? Weight => Algorithm.Securities.Count == 0 ? default(double) : 1d / Algorithm.Securities.Count;
 
+
         public virtual PortfolioBias PortfolioBias => PortfolioBias.LongShort;
 
         [OneTimeSetUp]
