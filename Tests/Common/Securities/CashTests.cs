@@ -52,7 +52,7 @@ namespace QuantConnect.Tests.Common.Securities
             var exception = Assert.Throws<ArgumentException>(
                 delegate { var cash = new Cash(currency, 0, 0); });
 
-            Assert.Equals(message, exception.Message);
+            Assert.True(exception.Message.Equals(message));
         }
 
         [Test]
