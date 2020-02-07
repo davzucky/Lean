@@ -111,7 +111,7 @@ namespace QuantConnect.Tests.Common.Securities
         public void ThrowsOnWildcardSecurityType()
         {
             const string input = "[*]-usa-SPY";
-            var exception = Assert.Throws<FormatException>(delegate
+            var exception = Assert.Throws<ArgumentException>(delegate
                 {
                     SecurityDatabaseKey.Parse(input);
                 });
