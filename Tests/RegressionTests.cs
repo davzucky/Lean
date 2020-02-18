@@ -68,7 +68,7 @@ namespace QuantConnect.Tests
             }
         }
 
-        private static TestCaseData[] GetRegressionTestParameters()
+        private TestCaseData[] GetRegressionTestParameters()
         {
             var nonDefaultStatuses = new Dictionary<string, AlgorithmStatus>
             {

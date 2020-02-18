@@ -16,14 +16,20 @@
 
 using NUnit.Framework;
 using QuantConnect.Logging;
+using System;
+using System.Diagnostics;
 
 [SetUpFixture]
 public class AssemblyInitialize
 {
-    [SetUp]
+    [OneTimeSetUp]
     public void SetLogHandler()
     {
         // save output to file as well
         Log.LogHandler = new ConsoleLogHandler();
+
+        // Set current directory as test directory to ensure Nunit2 to nunit3 consistancy
+        Environment.CurrentDirectory = TestContext.CurrentContext.TestDirectory;
+        System.IO.Directory.SetCurrentDirectory(TestContext.CurrentContext.TestDirectory);
     }
 }

@@ -15,13 +15,14 @@
 
 using System;
 using NUnit.Framework;
+using QuantConnect;
 
 namespace QuantConnect.Tests
 {
     [SetUpFixture]
     public class PythonSetup
     {
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             var pythonPath = string.Join(
@@ -42,7 +43,7 @@ namespace QuantConnect.Tests
             Environment.SetEnvironmentVariable("PYTHONPATH", pythonPath);
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void TearDown()
         {
         }
