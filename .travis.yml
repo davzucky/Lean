@@ -21,6 +21,6 @@ install:
   - nuget install NUnit.ConsoleRunner -Version 3.11.1 -OutputDirectory testrunner
 script:
   - msbuild /p:Configuration=Release /p:VbcToolExe=vbnc.exe QuantConnect.Lean.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.11.1/tools/nunit3-console.exe .\Tests\bin\Debug\QuantConnect.Tests.dll --where "cat != TravisExclude" --labels=On
+  - mono ./testrunner/NUnit.ConsoleRunner.3.11.1/tools/nunit3-console.exe ./Tests/bin/Debug/QuantConnect.Tests.dll --where "cat != TravisExclude" --labels=On
 after_success:
   - coveralls
