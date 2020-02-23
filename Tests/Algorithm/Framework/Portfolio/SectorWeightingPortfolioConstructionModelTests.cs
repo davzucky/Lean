@@ -36,8 +36,8 @@ namespace QuantConnect.Tests.Algorithm.Framework.Portfolio
 
         public override double? Weight => Algorithm.Securities.Count == 0 ? default(double) : 1d / Algorithm.Securities.Count;
 
-        [TestFixtureSetUp]
-        public override void SetUp()
+        [OneTimeSetUp]
+        public void SetUp()
         {
             base.SetUp();
 
